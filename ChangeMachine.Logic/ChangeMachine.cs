@@ -170,7 +170,15 @@ namespace ChangeMachine.Logic
             return result;
         }
 
-        ///////////IncreseCounterForSelected(int money)
+        public void IncreseCounterForSelected(int value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DecreseCounterForSelected(int value)
+        {
+            throw new NotImplementedException();
+        }
 
         #region helper
         /// <summary>
