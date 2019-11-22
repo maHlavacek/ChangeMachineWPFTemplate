@@ -154,6 +154,12 @@ namespace ChangeMachine.Logic
             return result;
         }
 
+        /// <summary>
+        /// get the counter for Depot and returns true if the value is valid
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="counter"></param>
+        /// <returns></returns>
         public bool GetCounterForDepot(int value, out int counter)
         {
             counter = 0;
@@ -170,11 +176,85 @@ namespace ChangeMachine.Logic
             return result;
         }
 
+        /// <summary>
+        /// get the counter of insert and returns true if the value is valid
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="counter"></param>
+        /// <returns></returns>
+        public bool GetCounterForInsert(int value, out int counter)
+        {
+            counter = 0;
+            bool result = false;
+
+            if (value < 0)
+                throw new ArgumentException(nameof(value) + $" can not be less than zero");
+            if (moneyValues.Any(m => m == value))
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                counter = insertedValues[index];
+                result = true;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// get the counter of insert and returns true if the value is valid
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="counter"></param>
+        /// <returns></returns>
+        public bool GetCounterForSelected(int value, out int counter)
+        {
+            counter = 0;
+            bool result = false;
+
+            if (value < 0)
+                throw new ArgumentException(nameof(value) + $" can not be less than zero");
+            if (moneyValues.Any(m => m == value))
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                counter = selectedValues[index];
+                result = true;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// get the counter of insert and returns true if the value is valid
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="counter"></param>
+        /// <returns></returns>
+        public bool GetCounterForEjection(int value, out int counter)
+        {
+            counter = 0;
+            bool result = false;
+
+            if (value < 0)
+                throw new ArgumentException(nameof(value) + $" can not be less than zero");
+            if (moneyValues.Any(m => m == value))
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                counter = ejectionValues[index];
+                result = true;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// increase the selected value
+        /// </summary>
+        /// <param name="value"></param>
         public void IncreseCounterForSelected(int value)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// decrease the selected value
+        /// </summary>
+        /// <param name="value"></param>
         public void DecreseCounterForSelected(int value)
         {
             throw new NotImplementedException();
