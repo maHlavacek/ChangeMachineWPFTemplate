@@ -5,6 +5,8 @@ namespace ChangeMachine.Logic
 {
     public class ChangeMachine
     {
+        #region Fields
+
         /// <summary>
         /// valid money values (1 EUR, 2EUR, 5 EUR, 10 EUR.....)
         /// </summary>
@@ -30,14 +32,19 @@ namespace ChangeMachine.Logic
         /// </summary>
         private int[] ejectionValues;
 
+        #endregion
 
+        #region Properties
+  
         /// <summary>
         /// return the sum of money values 
         /// </summary>
         public int MoneyInDepot => valuesInDepot.Sum();
 
 
-        #region MoneyCalculation
+        /// <summary>
+        /// return the amount of money for the different fields
+        /// </summary>
         public int InsertValue => CalculateMoney(insertedValues);
 
         public int DepotValue => CalculateMoney(valuesInDepot);
@@ -48,7 +55,7 @@ namespace ChangeMachine.Logic
 
         #endregion
 
-
+        #region Constructors
 
         public ChangeMachine()
         {
@@ -76,7 +83,9 @@ namespace ChangeMachine.Logic
 
             values.CopyTo(valuesInDepot, 0);
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Inserted money will be inserted if it is a valid value.
         /// Returns False when the inserted value is not a valid MoneyValue,
@@ -153,6 +162,10 @@ namespace ChangeMachine.Logic
             EmptyIntArray(insertedValues);
             return result;
         }
+
+        #endregion
+
+        #region CounterMethods
 
         /// <summary>
         /// get the counter for Depot and returns true if the value is valid
@@ -259,6 +272,7 @@ namespace ChangeMachine.Logic
         {
             throw new NotImplementedException();
         }
+        #endregion
 
         #region helper
         /// <summary>
