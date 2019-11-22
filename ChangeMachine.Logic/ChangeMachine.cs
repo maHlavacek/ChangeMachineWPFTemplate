@@ -74,10 +74,7 @@ namespace ChangeMachine.Logic
             if (values.Any(v => v < 0))
                 throw new ArgumentException(nameof(values) + $" can not be negative");
 
-            for (int i = 0; i < moneyValues.Length; i++)
-            {
-                valuesInDepot[i] = values[i];
-            }
+            values.CopyTo(valuesInDepot, 0);
         }
 
         /// <summary>
@@ -96,25 +93,86 @@ namespace ChangeMachine.Logic
             if(moneyValues.Contains(value))
             {
                 int index = Array.IndexOf(moneyValues, value);
-                moneyValues[index] += value;
+                insertedValues[index]++;
                 result = true;
             }
             return result;
         }
 
+
+        /// <summary>
+        /// Calculates the ejectionValues and put the inserted money in the depot
+        /// </summary>
         public void Change()
         {
-            throw new NotImplementedException();
+            int insert = InsertValue;
+
+            AddIntArrays(valuesInDepot, insertedValues);
+
+            for (int i = moneyValues.Length - 1; i >= 0; i--)
+            {
+                if(moneyValues[i] <= insert)
+                {
+                    while (insert >= moneyValues[i] && valuesInDepot[i] > 0)
+                    {
+                        insert -= moneyValues[i];
+                        valuesInDepot[i]--;
+                        ejectionValues[i]++;
+                    }
+                }
+            }
         }
 
+
+        /// <summary>
+        /// Empty ejectionValues and returns them
+        /// </summary>
+        /// <returns></returns>
         public int[] EmptyEjection()
         {
-            throw new NotImplementedException();
+            int[] result = new int[moneyValues.Length];
+            ejectionValues.CopyTo(result, 0);
+            EmptyIntArray(ejectionValues);
+            return result;  
         }
 
+        /// <summary>
+        /// Empty insertedValues and returns valuesInDepot
+        /// </summary>
+        /// <returns></returns>
         public int[] EmptyDepot()
         {
-            throw new NotImplementedException();
+            int[] result = new int[moneyValues.Length];
+            valuesInDepot.CopyTo(result, 0);
+            EmptyIntArray(insertedValues);
+            return result;
+        }
+
+        /// <summary>
+        /// Helpermethod to add array values
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="other"></param>
+        private void AddIntArrays(int[] result, int[] other)
+        {
+            if (result.Length != other.Length)
+                throw new ArgumentException(nameof(result) + $" and " + nameof(other) + $" have not the same length");
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] += other[i];
+            }
+        }
+
+        /// <summary>
+        /// Helpermethod to set an int array to zero on each position
+        /// </summary>
+        /// <param name="array"></param>
+        private void EmptyIntArray(int[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = 0;
+            }
         }
 
 
