@@ -124,6 +124,12 @@ namespace ChangeMachine.Logic
         }
 
 
+        public void CancelOrder()
+        {
+            insertedValues.CopyTo(ejectionValues, 0);
+            EmptyIntArray(insertedValues);
+        }
+
         /// <summary>
         /// Empty ejectionValues and returns them
         /// </summary>
@@ -148,6 +154,25 @@ namespace ChangeMachine.Logic
             return result;
         }
 
+        public bool GetCounterForDepot(int value, out int counter)
+        {
+            counter = 0;
+            bool result = false;
+
+            if (value < 0)
+                throw new ArgumentException(nameof(value) + $" can not be less than zero");
+            if(moneyValues.Any(m => m == value))
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                counter = valuesInDepot[index];
+                result = true;
+            }
+            return result;
+        }
+
+        ///////////IncreseCounterForSelected(int money)
+
+        #region helper
         /// <summary>
         /// Helpermethod to add array values
         /// </summary>
@@ -196,4 +221,5 @@ namespace ChangeMachine.Logic
             return result;
         }
     }
+    #endregion
 }
