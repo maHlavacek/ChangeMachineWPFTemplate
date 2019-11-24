@@ -104,7 +104,5 @@
         <Label Grid.Row="6" Grid.Column="7" HorizontalAlignment="Center" Content="{Binding ValuesInEject[6]}"/>
         <Label Grid.Row="6" Grid.Column="8" HorizontalAlignment="Center" Content="{Binding EjectionMoney}"/>
         <Button Grid.Row="6" Grid.Column="10" Margin="3" Click="Button_Click" Content="Entleeren"/>
-
-
     </Grid>
 </Window>

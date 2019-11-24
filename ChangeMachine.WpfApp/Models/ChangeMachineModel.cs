@@ -13,7 +13,7 @@ namespace ChangeMachine.WpfApp.Models
 
         protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(propertyName)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #region Fields
@@ -48,21 +48,6 @@ namespace ChangeMachine.WpfApp.Models
         /// </summary>
         public int DepotMoney => ChangeMachine.DepotMoney;
 
-        public bool InsertValue(int value)
-        {
-            bool result;
-            result = ChangeMachine.InsertMoney(value);
-            Update();
-            return result;
-        }
-
-        public void Cancel()
-        {
-            ChangeMachine.CancelOrder();
-            Update();
-        }
-
-
         /// <summary>
         /// Set amount of money values in the depot
         /// </summary>
@@ -71,25 +56,10 @@ namespace ChangeMachine.WpfApp.Models
             int counter;
             for (int i = 0; i < moneyValues.Length; i++)
             {
-                counter = 0;
                 ChangeMachine.GetCounterForDepot(moneyValues[i], out counter);
                 ValuesInDepot[i] = counter;
             }
         }
-
-        internal void Eject()
-        {
-            ChangeMachine.EmptyEjection();
-            Update();
-        }
-
-        internal void Change()
-        {
-            ChangeMachine.Change();
-            Update();
-        }
-
-
 
 
         #endregion
@@ -220,6 +190,32 @@ namespace ChangeMachine.WpfApp.Models
             SetInsert();
             SetSelect();
             SetEject();
+        }
+
+        public bool InsertValue(int value)
+        {
+            bool result;
+            result = ChangeMachine.InsertMoney(value);
+            Update();
+            return result;
+        }
+
+        public void Cancel()
+        {
+            ChangeMachine.CancelOrder();
+            Update();
+        }
+
+        public void Eject()
+        {
+            ChangeMachine.EmptyEjection();
+            Update();
+        }
+
+        public void Change()
+        {
+            ChangeMachine.Change();
+            Update();
         }
     }
 }
