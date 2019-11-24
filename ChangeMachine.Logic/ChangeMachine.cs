@@ -43,15 +43,24 @@ namespace ChangeMachine.Logic
 
 
         /// <summary>
-        /// return the amount of money for the different fields
+        /// return the amount of inserted money
         /// </summary>
-        public int InsertValue => CalculateMoney(insertedValues);
+        public int InsertedMoney => CalculateMoney(insertedValues);
 
-        public int DepotValue => CalculateMoney(valuesInDepot);
+        /// <summary>
+        /// return the amount of the money in depot
+        /// </summary>
+        public int DepotMoney => CalculateMoney(valuesInDepot);
 
-        public int SelectedValue => CalculateMoney(selectedValues);
+        /// <summary>
+        /// return the amount of the selected money
+        /// </summary>
+        public int SelectedMoney => CalculateMoney(selectedValues);
 
-        public int EjectionValue => CalculateMoney(ejectionValues);
+        /// <summary>
+        /// return the amount of the ejection money
+        /// </summary>
+        public int EjectionMoney => CalculateMoney(ejectionValues);
 
         #endregion
 
@@ -114,7 +123,7 @@ namespace ChangeMachine.Logic
         /// </summary>
         public void Change()
         {
-            int insert = InsertValue;
+            int insert = InsertedMoney;
 
             AddIntArrays(valuesInDepot, insertedValues);
 
@@ -261,7 +270,11 @@ namespace ChangeMachine.Logic
         /// <param name="value"></param>
         public void IncreseCounterForSelected(int value)
         {
-            throw new NotImplementedException();
+            if(moneyValues.Any(m => m == value) && SelectedMoney <= InsertedMoney)
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                selectedValues[index]++;
+            }
         }
 
         /// <summary>
@@ -270,7 +283,14 @@ namespace ChangeMachine.Logic
         /// <param name="value"></param>
         public void DecreseCounterForSelected(int value)
         {
-            throw new NotImplementedException();
+            if (moneyValues.Any(m => m == value))
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                if(selectedValues[index] > 0)
+                {
+                    selectedValues[index]--;
+                }
+            }
         }
         #endregion
 
