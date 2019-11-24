@@ -139,6 +139,8 @@ namespace ChangeMachine.Logic
                     }
                 }
             }
+            EmptyIntArray(insertedValues);
+            EmptyEjection();
         }
 
 
@@ -270,7 +272,7 @@ namespace ChangeMachine.Logic
         /// <param name="value"></param>
         public void IncreseCounterForSelected(int value)
         {
-            if(moneyValues.Any(m => m == value) && SelectedMoney <= InsertedMoney)
+            if(moneyValues.Any(m => m == value) && SelectedMoney < InsertedMoney)
             {
                 int index = Array.IndexOf(moneyValues, value);
                 selectedValues[index]++;

@@ -129,6 +129,18 @@ namespace ChangeMachine.WpfApp.Models
             ChangeMachine.Change();
             Update();
         }
+
+        public void IncreaseSelect(int value)
+        {
+            ChangeMachine.IncreseCounterForSelected(value);
+            Update();
+        }
+
+        public void DecreaseSelect(int value)
+        {
+            ChangeMachine.IncreseCounterForSelected(value);
+            Update();
+        }
         #endregion
 
         #region SetPropertyMethods
@@ -138,12 +150,13 @@ namespace ChangeMachine.WpfApp.Models
         /// </summary>
         private void SetDepot()
         {
-            int counter;
+            int[] counterArray = new int[moneyValues.Length];
             for (int i = 0; i < moneyValues.Length; i++)
             {
-                ChangeMachine.GetCounterForDepot(moneyValues[i], out counter);
-                ValuesInDepot[i] = counter;
+                ChangeMachine.GetCounterForDepot(moneyValues[i], out int counter);
+                counterArray[i] = counter;
             }
+            ValuesInDepot = counterArray;
         }
 
         /// <summary>
@@ -151,12 +164,13 @@ namespace ChangeMachine.WpfApp.Models
         /// </summary>
         private void SetInsert()
         {
-            int counter;
+            int[] counterArray = new int[moneyValues.Length];
             for (int i = 0; i < moneyValues.Length; i++)
             {
-                ChangeMachine.GetCounterForInsert(moneyValues[i], out counter);
-                ValuesInInsert[i] = counter;
+                ChangeMachine.GetCounterForInsert(moneyValues[i], out int counter);
+                counterArray[i] = counter;
             }
+            ValuesInInsert = counterArray;
         }
 
         /// <summary>
@@ -164,12 +178,13 @@ namespace ChangeMachine.WpfApp.Models
         /// </summary>
         private void SetSelect()
         {
-            int counter;
+            int[] counterArray = new int[moneyValues.Length];
             for (int i = 0; i < moneyValues.Length; i++)
             {
-                ChangeMachine.GetCounterForSelected(moneyValues[i], out counter);
-                ValuesInSelect[i] = counter;
+                ChangeMachine.GetCounterForSelected(moneyValues[i], out int counter);
+                counterArray[i] = counter;
             }
+            ValuesInSelect = counterArray;
         }
 
         /// <summary>
@@ -177,12 +192,13 @@ namespace ChangeMachine.WpfApp.Models
         /// </summary>
         private void SetEject()
         {
-            int counter;
+            int[] counterArray = new int[moneyValues.Length];
             for (int i = 0; i < moneyValues.Length; i++)
             {
-                ChangeMachine.GetCounterForEjection(moneyValues[i], out counter);
-                ValuesInEject[i] = counter;
+                ChangeMachine.GetCounterForEjection(moneyValues[i], out int counter);
+                counterArray[i] = counter;
             }
+            ValuesInEject = counterArray;
         }
         #endregion
     }

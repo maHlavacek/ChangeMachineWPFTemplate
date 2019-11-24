@@ -49,6 +49,16 @@ namespace ChangeMachine.WpfApp
                 {
                     ChangeMachineModel.Eject();
                 }
+                if(btn.Content.ToString().Substring(0,1) == "+")
+                {
+                    int value = Convert.ToInt32(btn.Content.ToString());
+                    ChangeMachineModel.IncreaseSelect(value);
+                }
+                if (btn.Content.ToString().Substring(0, 1) == "-")
+                {
+                    int value = Convert.ToInt32(btn.Content.ToString()) * -1;
+                    ChangeMachineModel.DecreaseSelect(value);
+                }
 
             }
         }
