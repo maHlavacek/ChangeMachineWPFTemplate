@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 
 namespace ChangeMachine.WpfApp.Models
 {
-    class ChangeMachineModel : INotifyPropertyChanged
+    public class ChangeMachineModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -15,12 +17,15 @@ namespace ChangeMachine.WpfApp.Models
         }
 
         #region Fields
-        private int[] moneyValues = { 1, 2, 5, 10, 20, 50, 100 };
+        public int[] moneyValues = { 1, 2, 5, 10, 20, 50, 100 };
+
 
         #endregion
 
         #region Properties
         private Logic.ChangeMachine ChangeMachine { get; set; }
+
+        public string[] MoneyValuesAsString => moneyValues.Select(s => s.ToString()).ToArray();
 
         #endregion
 
@@ -39,6 +44,26 @@ namespace ChangeMachine.WpfApp.Models
         }
 
         /// <summary>
+        /// Get the amount of depot money
+        /// </summary>
+        public int DepotMoney => ChangeMachine.DepotMoney;
+
+        public bool InsertValue(int value)
+        {
+            bool result;
+            result = ChangeMachine.InsertMoney(value);
+            Update();
+            return result;
+        }
+
+        public void Cancel()
+        {
+            ChangeMachine.CancelOrder();
+            Update();
+        }
+
+
+        /// <summary>
         /// Set amount of money values in the depot
         /// </summary>
         private void SetDepot()
@@ -46,10 +71,24 @@ namespace ChangeMachine.WpfApp.Models
             int counter;
             for (int i = 0; i < moneyValues.Length; i++)
             {
+                counter = 0;
                 ChangeMachine.GetCounterForDepot(moneyValues[i], out counter);
                 ValuesInDepot[i] = counter;
             }
         }
+
+        internal void Eject()
+        {
+            ChangeMachine.EmptyEjection();
+            Update();
+        }
+
+        internal void Change()
+        {
+            ChangeMachine.Change();
+            Update();
+        }
+
 
 
 
@@ -64,10 +103,15 @@ namespace ChangeMachine.WpfApp.Models
             get { return valuesInInsert; }
             set
             {
-                valuesInDepot = value;
+                valuesInInsert = value;
                 OnPropertyChanged(nameof(ValuesInInsert));
             }
         }
+
+        /// <summary>
+        /// Get the amount of inserted money
+        /// </summary>
+        public int InsertedMoney => ChangeMachine.InsertedMoney;
 
         /// <summary>
         /// Set amount of money values in the insert
@@ -77,7 +121,7 @@ namespace ChangeMachine.WpfApp.Models
             int counter;
             for (int i = 0; i < moneyValues.Length; i++)
             {
-                ChangeMachine.GetCounterForDepot(moneyValues[i], out counter);
+                ChangeMachine.GetCounterForInsert(moneyValues[i], out counter);
                 ValuesInInsert[i] = counter;
             }
         }
@@ -98,6 +142,12 @@ namespace ChangeMachine.WpfApp.Models
             }
         }
 
+        /// <summary>
+        /// Get the amount of selected money
+        /// </summary>
+        public int SelectedMoney => ChangeMachine.SelectedMoney;
+
+
 
         /// <summary>
         /// Set amount of money values in the select
@@ -107,7 +157,7 @@ namespace ChangeMachine.WpfApp.Models
             int counter;
             for (int i = 0; i < moneyValues.Length; i++)
             {
-                ChangeMachine.GetCounterForDepot(moneyValues[i], out counter);
+                ChangeMachine.GetCounterForSelected(moneyValues[i], out counter);
                 ValuesInSelect[i] = counter;
             }
         }
@@ -124,10 +174,16 @@ namespace ChangeMachine.WpfApp.Models
             get { return valuesInEject; }
             set
             {
-                valuesInSelect = value;
+                valuesInEject = value;
                 OnPropertyChanged(nameof(ValuesInEject));
             }
         }
+
+        /// <summary>
+        /// Get the amount of ejection money
+        /// </summary>
+        public int EjectionMoney => ChangeMachine.EjectionMoney;
+
 
         /// <summary>
         /// Set amount of money values in the eject
@@ -137,7 +193,7 @@ namespace ChangeMachine.WpfApp.Models
             int counter;
             for (int i = 0; i < moneyValues.Length; i++)
             {
-                ChangeMachine.GetCounterForDepot(moneyValues[i], out counter);
+                ChangeMachine.GetCounterForEjection(moneyValues[i], out counter);
                 ValuesInEject[i] = counter;
             }
         }
@@ -146,6 +202,11 @@ namespace ChangeMachine.WpfApp.Models
 
         public ChangeMachineModel()
         {
+            ChangeMachine = new Logic.ChangeMachine();
+            ValuesInDepot = new int[moneyValues.Length];
+            ValuesInInsert = new int[moneyValues.Length];
+            ValuesInSelect = new int[moneyValues.Length];
+            ValuesInEject = new int[moneyValues.Length];
             Update();
         }
 

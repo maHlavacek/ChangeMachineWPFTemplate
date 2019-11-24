@@ -20,9 +20,37 @@ namespace ChangeMachine.WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ChangeMachine.WpfApp.Models.ChangeMachineModel ChangeMachineModel { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            ChangeMachineModel = new ChangeMachine.WpfApp.Models.ChangeMachineModel();
+            DataContext = ChangeMachineModel;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button btn)
+            {
+                if(btn.Content.ToString().Equals("Einwurf", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    int value = Convert.ToInt32(cmbMoney.SelectedValue);
+                    ChangeMachineModel.InsertValue(value);
+                }
+                if (btn.Content.ToString().Equals("Abbruch", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    ChangeMachineModel.Cancel();
+                }
+                if (btn.Content.ToString().Equals("Wechseln", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    ChangeMachineModel.Change();
+                }
+                if (btn.Content.ToString().Equals("Entleeren", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    ChangeMachineModel.Eject();
+                }
+
+            }
         }
     }
 }

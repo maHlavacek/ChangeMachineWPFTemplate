@@ -5,8 +5,106 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChangeMachine.WpfApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="300" Width="900">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+        </Grid.ColumnDefinitions>
+        
+        <Label Grid.Row="0" Grid.Column="0" FontWeight="Bold" Content="Einheiten:"/>
+        <Label Grid.Row="0" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center" Content="1 EUR"/>
+        <Label Grid.Row="0" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Center" Content="2 EUR"/>
+        <Label Grid.Row="0" Grid.Column="3" FontWeight="Bold" HorizontalAlignment="Center" Content="5 EUR"/>
+        <Label Grid.Row="0" Grid.Column="4" FontWeight="Bold" HorizontalAlignment="Center" Content="10 EUR"/>
+        <Label Grid.Row="0" Grid.Column="5" FontWeight="Bold" HorizontalAlignment="Center" Content="20 EUR"/>
+        <Label Grid.Row="0" Grid.Column="6" FontWeight="Bold" HorizontalAlignment="Center" Content="50 EUR"/>
+        <Label Grid.Row="0" Grid.Column="7" FontWeight="Bold" HorizontalAlignment="Center" Content="100 EUR"/>
+        <Label Grid.Row="0" Grid.Column="8" FontWeight="Bold" HorizontalAlignment="Center" Content="Summe:"/>
+
+        <Label Grid.Row="1" Grid.Column="0" FontWeight="Bold" Content="Kassa:"/>
+        <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding ValuesInDepot[0]}"/>
+        <Label Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Content="{Binding ValuesInDepot[1]}"/>
+        <Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Content="{Binding ValuesInDepot[2]}"/>
+        <Label Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" Content="{Binding ValuesInDepot[3]}"/>
+        <Label Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" Content="{Binding ValuesInDepot[4]}"/>
+        <Label Grid.Row="1" Grid.Column="6" HorizontalAlignment="Center" Content="{Binding ValuesInDepot[5]}"/>
+        <Label Grid.Row="1" Grid.Column="7" HorizontalAlignment="Center" Content="{Binding ValuesInDepot[6]}"/>
+        <Label Grid.Row="1" Grid.Column="8" HorizontalAlignment="Center" Content="{Binding DepotMoney}"/>
+
+        <Label Grid.Row="2" Grid.Column="0" FontWeight="Bold" Content="Eingabe:"/>
+        <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding ValuesInInsert[0]}"/>
+        <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Content="{Binding ValuesInInsert[1]}"/>
+        <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" Content="{Binding ValuesInInsert[2]}"/>
+        <Label Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" Content="{Binding ValuesInInsert[3]}"/>
+        <Label Grid.Row="2" Grid.Column="5" HorizontalAlignment="Center" Content="{Binding ValuesInInsert[4]}"/>
+        <Label Grid.Row="2" Grid.Column="6" HorizontalAlignment="Center" Content="{Binding ValuesInInsert[5]}"/>
+        <Label Grid.Row="2" Grid.Column="7" HorizontalAlignment="Center" Content="{Binding ValuesInInsert[6]}"/>
+        <Label Grid.Row="2" Grid.Column="8" HorizontalAlignment="Center" Content="{Binding InsertedMoney}"/>
+        <ComboBox Grid.Row="2" Grid.Column="10" Margin="3" ItemsSource="{Binding MoneyValuesAsString}" SelectedIndex="0" x:Name="cmbMoney"/>
+        <Button Grid.Row="2" Grid.Column="11" Margin="3" Click="Button_Click" Content="Einwurf"/>
+        <Button Grid.Row="2" Grid.Column="12" Margin="3" Click="Button_Click" Content="Abbruch"/>
+
+
+        <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold" Content="Auswahl:"/>
+        <Label Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding ValuesInSelect[0]}"/>
+        <Label Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" Content="{Binding ValuesInSelect[1]}"/>
+        <Label Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" Content="{Binding ValuesInSelect[2]}"/>
+        <Label Grid.Row="3" Grid.Column="4" HorizontalAlignment="Center" Content="{Binding ValuesInSelect[3]}"/>
+        <Label Grid.Row="3" Grid.Column="5" HorizontalAlignment="Center" Content="{Binding ValuesInSelect[4]}"/>
+        <Label Grid.Row="3" Grid.Column="6" HorizontalAlignment="Center" Content="{Binding ValuesInSelect[5]}"/>
+        <Label Grid.Row="3" Grid.Column="7" HorizontalAlignment="Center" Content="{Binding ValuesInSelect[6]}"/>
+        <Label Grid.Row="3" Grid.Column="8" HorizontalAlignment="Center" Content="{Binding SelectedMoney}"/>
+        <Button Grid.Row="3" Grid.Column="10" Margin="3" Click="Button_Click" Content="Wechseln"/>
+
+
+        <Button Grid.Row="4" Grid.Column="1" Width="40" Margin="5" Click="Button_Click" Content="+1"/>
+        <Button Grid.Row="4" Grid.Column="2" Width="40" Margin="5" Click="Button_Click" Content="+2"/>
+        <Button Grid.Row="4" Grid.Column="3" Width="40" Margin="5" Click="Button_Click" Content="+5"/>
+        <Button Grid.Row="4" Grid.Column="4" Width="40" Margin="5" Click="Button_Click" Content="+10"/>
+        <Button Grid.Row="4" Grid.Column="5" Width="40" Margin="5" Click="Button_Click" Content="+20"/>
+        <Button Grid.Row="4" Grid.Column="6" Width="40" Margin="5" Click="Button_Click" Content="+50"/>
+        <Button Grid.Row="4" Grid.Column="7" Width="40" Margin="5" Click="Button_Click" Content="+100"/>
+
+        <Button Grid.Row="5" Grid.Column="1" Width="40" Margin="5" Click="Button_Click" Content="-1"/>
+        <Button Grid.Row="5" Grid.Column="2" Width="40" Margin="5" Click="Button_Click" Content="-2"/>
+        <Button Grid.Row="5" Grid.Column="3" Width="40" Margin="5" Click="Button_Click" Content="-5"/>
+        <Button Grid.Row="5" Grid.Column="4" Width="40" Margin="5" Click="Button_Click" Content="-10"/>
+        <Button Grid.Row="5" Grid.Column="5" Width="40" Margin="5" Click="Button_Click" Content="-20"/>
+        <Button Grid.Row="5" Grid.Column="6" Width="40" Margin="5" Click="Button_Click" Content="-50"/>
+        <Button Grid.Row="5" Grid.Column="7" Width="40" Margin="5" Click="Button_Click" Content="-100"/>
+
+        <Label Grid.Row="6" Grid.Column="0" FontWeight="Bold" Content="Auswurf:"/>
+        <Label Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding ValuesInEject[0]}"/>
+        <Label Grid.Row="6" Grid.Column="2" HorizontalAlignment="Center" Content="{Binding ValuesInEject[1]}"/>
+        <Label Grid.Row="6" Grid.Column="3" HorizontalAlignment="Center" Content="{Binding ValuesInEject[2]}"/>
+        <Label Grid.Row="6" Grid.Column="4" HorizontalAlignment="Center" Content="{Binding ValuesInEject[3]}"/>
+        <Label Grid.Row="6" Grid.Column="5" HorizontalAlignment="Center" Content="{Binding ValuesInEject[4]}"/>
+        <Label Grid.Row="6" Grid.Column="6" HorizontalAlignment="Center" Content="{Binding ValuesInEject[5]}"/>
+        <Label Grid.Row="6" Grid.Column="7" HorizontalAlignment="Center" Content="{Binding ValuesInEject[6]}"/>
+        <Label Grid.Row="6" Grid.Column="8" HorizontalAlignment="Center" Content="{Binding EjectionMoney}"/>
+        <Button Grid.Row="6" Grid.Column="10" Margin="3" Click="Button_Click" Content="Entleeren"/>
+
 
     </Grid>
 </Window>
