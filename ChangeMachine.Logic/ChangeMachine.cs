@@ -141,7 +141,7 @@ namespace ChangeMachine.Logic
                     }
                 }
                 //Selected values change
-                else if (selectedValues.Any(e => e > 0) && valuesInDepot[i] > 0)
+                else if (selectedValues.Any(e => e > 0) && valuesInDepot[i] > ejectionValues[i])
                 {
                     valuesInDepot[i] -= ejectionValues[i];
                 }
@@ -227,19 +227,7 @@ namespace ChangeMachine.Logic
         /// <returns></returns>
         public bool GetCounterForDepot(int value, out int counter)
         {
-            counter = 0;
-            bool result = false;
-
-            if (value < 0)
-                throw new ArgumentException(nameof(value) + $" can not be less than zero");
-
-            if(moneyValues.Any(m => m == value))
-            {
-                int index = Array.IndexOf(moneyValues, value);
-                counter = valuesInDepot[index];
-                result = true;
-            }
-            return result;
+          return GetCounter(valuesInDepot, value, out counter);
         }
 
         /// <summary>
@@ -250,18 +238,7 @@ namespace ChangeMachine.Logic
         /// <returns></returns>
         public bool GetCounterForInsert(int value, out int counter)
         {
-            counter = 0;
-            bool result = false;
-
-            if (value < 0)
-                throw new ArgumentException(nameof(value) + $" can not be less than zero");
-            if (moneyValues.Any(m => m == value))
-            {
-                int index = Array.IndexOf(moneyValues, value);
-                counter = insertedValues[index];
-                result = true;
-            }
-            return result;
+            return GetCounter(insertedValues, value, out counter);
         }
 
         /// <summary>
@@ -272,18 +249,7 @@ namespace ChangeMachine.Logic
         /// <returns></returns>
         public bool GetCounterForSelected(int value, out int counter)
         {
-            counter = 0;
-            bool result = false;
-
-            if (value < 0)
-                throw new ArgumentException(nameof(value) + $" can not be less than zero");
-            if (moneyValues.Any(m => m == value))
-            {
-                int index = Array.IndexOf(moneyValues, value);
-                counter = selectedValues[index];
-                result = true;
-            }
-            return result;
+            return GetCounter(selectedValues, value, out counter);
         }
 
         /// <summary>
@@ -294,23 +260,36 @@ namespace ChangeMachine.Logic
         /// <returns></returns>
         public bool GetCounterForEjection(int value, out int counter)
         {
-            counter = 0;
-            bool result = false;
-
-            if (value < 0)
-                throw new ArgumentException(nameof(value) + $" can not be less than zero");
-            if (moneyValues.Any(m => m == value))
-            {
-                int index = Array.IndexOf(moneyValues, value);
-                counter = ejectionValues[index];
-                result = true;
-            }
-            return result;
+            return GetCounter(ejectionValues, value, out counter);
         }
 
         #endregion
 
         #region helper
+
+        /// <summary>
+        /// get the counter with an out parameter for the array which is passed in, and returns true if it was successful
+        /// </summary>
+        /// <param name="valueArray"></param>
+        /// <param name="value"></param>
+        /// <param name="counter"></param>
+        /// <returns></returns>
+        private bool GetCounter(int[] valueArray, int value, out int counter)
+        {
+            counter = 0;
+            bool result = false;
+            if (value < 0)
+                throw new ArgumentException(nameof(value) + $" can not be less than zero");
+
+            if (moneyValues.Any(m => m == value))
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                counter = valueArray[index];
+                result = true;
+            }
+            return result;
+        }
+
         /// <summary>
         /// Helpermethod to add array values
         /// </summary>
