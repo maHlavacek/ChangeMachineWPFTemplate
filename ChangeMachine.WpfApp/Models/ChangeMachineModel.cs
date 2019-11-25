@@ -104,6 +104,11 @@ namespace ChangeMachine.WpfApp.Models
             SetEject();
         }
 
+        /// <summary>
+        /// Puts the value into the Logic insertMoney and returns true if the process was successful
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool InsertValue(int value)
         {
             bool result;
@@ -112,30 +117,47 @@ namespace ChangeMachine.WpfApp.Models
             return result;
         }
 
+        /// <summary>
+        /// Cancels the changing process
+        /// </summary>
         public void Cancel()
         {
             ChangeMachine.CancelOrder();
             Update();
         }
 
+        /// <summary>
+        /// Eject the changed money
+        /// </summary>
         public void Eject()
         {
             ChangeMachine.EmptyEjection();
             Update();
         }
 
+        /// <summary>
+        /// starts the changing process
+        /// </summary>
         public void Change()
         {
             ChangeMachine.Change();
             Update();
         }
 
+        /// <summary>
+        /// increase the value for selected change
+        /// </summary>
+        /// <param name="value"></param>
         public void IncreaseSelect(int value)
         {
             ChangeMachine.IncreseCounterForSelected(value);
             Update();
         }
 
+        /// <summary>
+        /// decrease the value for selected change
+        /// </summary>
+        /// <param name="value"></param>
         public void DecreaseSelect(int value)
         {
             ChangeMachine.DecreseCounterForSelected(value);

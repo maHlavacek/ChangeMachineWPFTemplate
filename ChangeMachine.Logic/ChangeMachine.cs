@@ -119,7 +119,7 @@ namespace ChangeMachine.Logic
 
 
         /// <summary>
-        /// Calculates the ejectionValues and put the inserted money in the depot
+        /// Calculates the ejectionValues and put the inserted money in the depot,
         /// </summary>
         public void Change()
         {
@@ -130,7 +130,8 @@ namespace ChangeMachine.Logic
 
             for (int i = moneyValues.Length - 1; i >= 0; i--)
             {
-                if(moneyValues[i] <= insert && selectedValues.All(e => e == 0))
+                //Automatic change
+                if (moneyValues[i] <= insert && selectedValues.All(e => e == 0))
                 {
                     while (insert >= moneyValues[i] && valuesInDepot[i] > 0)
                     {
@@ -139,21 +140,55 @@ namespace ChangeMachine.Logic
                         ejectionValues[i]++;
                     }
                 }
+                //Selected values change
                 else if (selectedValues.Any(e => e > 0) && valuesInDepot[i] > 0)
                 {
                     valuesInDepot[i] -= ejectionValues[i];
                 }
             }
-
             EmptyIntArray(selectedValues);
             EmptyDepot();
         }
 
-
+        /// <summary>
+        /// Put inserted money in ejection and empty insertedValues
+        /// </summary>
         public void CancelOrder()
         {
             insertedValues.CopyTo(ejectionValues, 0);
             EmptyIntArray(insertedValues);
+        }
+
+        /// <summary>
+        /// increase the selected value
+        /// </summary>
+        /// <param name="value"></param>
+        public void IncreseCounterForSelected(int value)
+        {
+            if (moneyValues.Any(m => m == value) && SelectedMoney + value <= InsertedMoney)
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                if (selectedValues[index] < valuesInDepot[index])
+                {
+                    selectedValues[index]++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// decrease the selected value
+        /// </summary>
+        /// <param name="value"></param>
+        public void DecreseCounterForSelected(int value)
+        {
+            if (moneyValues.Any(m => m == value))
+            {
+                int index = Array.IndexOf(moneyValues, value);
+                if (selectedValues[index] > 0)
+                {
+                    selectedValues[index]--;
+                }
+            }
         }
 
         /// <summary>
@@ -197,6 +232,7 @@ namespace ChangeMachine.Logic
 
             if (value < 0)
                 throw new ArgumentException(nameof(value) + $" can not be less than zero");
+
             if(moneyValues.Any(m => m == value))
             {
                 int index = Array.IndexOf(moneyValues, value);
@@ -272,37 +308,6 @@ namespace ChangeMachine.Logic
             return result;
         }
 
-        /// <summary>
-        /// increase the selected value
-        /// </summary>
-        /// <param name="value"></param>
-        public void IncreseCounterForSelected(int value)
-        {
-            if(moneyValues.Any(m => m == value) && SelectedMoney + value <= InsertedMoney)
-            {
-                int index = Array.IndexOf(moneyValues, value);
-                if(selectedValues[index] < valuesInDepot[index])
-                {
-                    selectedValues[index]++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// decrease the selected value
-        /// </summary>
-        /// <param name="value"></param>
-        public void DecreseCounterForSelected(int value)
-        {
-            if (moneyValues.Any(m => m == value))
-            {
-                int index = Array.IndexOf(moneyValues, value);
-                if(selectedValues[index] > 0)
-                {
-                    selectedValues[index]--;
-                }
-            }
-        }
         #endregion
 
         #region helper
