@@ -126,10 +126,11 @@ namespace ChangeMachine.Logic
             int insert = InsertedMoney;
 
             AddIntArrays(valuesInDepot, insertedValues);
+            AddIntArrays(ejectionValues, selectedValues);
 
             for (int i = moneyValues.Length - 1; i >= 0; i--)
             {
-                if(moneyValues[i] <= insert)
+                if(moneyValues[i] <= insert && selectedValues.All(e => e == 0))
                 {
                     while (insert >= moneyValues[i] && valuesInDepot[i] > 0)
                     {
@@ -138,9 +139,14 @@ namespace ChangeMachine.Logic
                         ejectionValues[i]++;
                     }
                 }
+                else if (selectedValues.Any(e => e > 0))
+                {
+                    valuesInDepot[i] -= ejectionValues[i];
+                }
             }
-            EmptyIntArray(insertedValues);
-            EmptyEjection();
+
+            EmptyIntArray(selectedValues);
+            EmptyDepot();
         }
 
 
@@ -272,7 +278,7 @@ namespace ChangeMachine.Logic
         /// <param name="value"></param>
         public void IncreseCounterForSelected(int value)
         {
-            if(moneyValues.Any(m => m == value) && SelectedMoney < InsertedMoney)
+            if(moneyValues.Any(m => m == value) && SelectedMoney + value <= InsertedMoney)
             {
                 int index = Array.IndexOf(moneyValues, value);
                 selectedValues[index]++;
