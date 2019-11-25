@@ -139,7 +139,7 @@ namespace ChangeMachine.Logic
                         ejectionValues[i]++;
                     }
                 }
-                else if (selectedValues.Any(e => e > 0))
+                else if (selectedValues.Any(e => e > 0) && valuesInDepot[i] > 0)
                 {
                     valuesInDepot[i] -= ejectionValues[i];
                 }
@@ -281,7 +281,10 @@ namespace ChangeMachine.Logic
             if(moneyValues.Any(m => m == value) && SelectedMoney + value <= InsertedMoney)
             {
                 int index = Array.IndexOf(moneyValues, value);
-                selectedValues[index]++;
+                if(selectedValues[index] < valuesInDepot[index])
+                {
+                    selectedValues[index]++;
+                }
             }
         }
 

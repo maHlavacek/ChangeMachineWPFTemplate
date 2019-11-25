@@ -138,7 +138,7 @@ namespace ChangeMachine.WpfApp.Models
 
         public void DecreaseSelect(int value)
         {
-            ChangeMachine.IncreseCounterForSelected(value);
+            ChangeMachine.DecreseCounterForSelected(value);
             Update();
         }
         #endregion
